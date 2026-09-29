@@ -173,7 +173,6 @@ def majorlogin_jwt():
                         "access_token": access_token,
                         "platform": decoded_token.get("external_type"),
                         "region": decoded_token.get("lock_region"),
-                        "AccountLevel": decoded_token.get("AccountLevel"),
                         "status": "success",
                         "token": token_value
                     }
@@ -231,11 +230,6 @@ def oauth_guest():
     
     with app.test_request_context('/api/token', query_string=params):
         return majorlogin_jwt()
-
-
-@app.route('/guest-to-jwt', methods=['GET'])
-def guest_to_jwt():
-    return oauth_guest()
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=1080, debug=False)
