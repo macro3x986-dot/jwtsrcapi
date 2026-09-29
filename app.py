@@ -9,23 +9,6 @@ import jwt
 
 app = Flask(__name__)
 
-
-@app.route('/', methods=['GET'])
-def home():
-    return jsonify({
-        "status": "online",
-        "message": "JWT-ACCESS-API is running",
-        "endpoints": ["/access-jwt", "/token", "/health"]
-    })
-
-
-@app.route('/health', methods=['GET'])
-def health():
-    return jsonify({
-        "status": "ok",
-        "message": "API is healthy"
-    })
-
 AES_KEY = b'Yg&tc%DEuh6%Zc^8'
 AES_IV = b'6oyZDr22E3ychjM%'
 
@@ -186,11 +169,11 @@ def majorlogin_jwt():
                     result = {
                         "account_id": decoded_token.get("account_id"),
                         "account_name": decoded_token.get("nickname"),
-                        "AccountLevel": decoded_token.get("AccountLevel"),
                         "open_id": open_id,
                         "access_token": access_token,
                         "platform": decoded_token.get("external_type"),
                         "region": decoded_token.get("lock_region"),
+                        "AccountLevel": decoded_token.get("AccountLevel"),
                         "status": "success",
                         "token": token_value
                     }
@@ -249,8 +232,8 @@ def oauth_guest():
     with app.test_request_context('/api/token', query_string=params):
         return majorlogin_jwt()
 
+
 @app.route('/guest-to-jwt', methods=['GET'])
-@app.route('/guest_to_jwt', methods=['GET'])
 def guest_to_jwt():
     return oauth_guest()
 
